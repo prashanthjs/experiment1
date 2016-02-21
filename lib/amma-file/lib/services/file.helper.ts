@@ -4,6 +4,9 @@ import Async = require('async');
 import Fs = require('fs-plus');
 import Hapi = require('hapi');
 import NodeFs = require('fs');
+import Joi = require('joi');
+
+import Schema = require('../schema/schema');
 
 export interface IOptions {
     tempDir: string;
@@ -38,12 +41,22 @@ export interface IFileHelper {
 
 export class FileHelper implements IFileHelper {
 
-    constructor(protected fileManager:FileManager.IFileManager,
-                protected options:IOptions,
-                protected extPath:string,
-                protected token:string) {
+    protected fileManager:FileManager.IFileManager;
+    protected options:IOptions;
+    protected extPath:string;
+    protected token:string;
 
 
+    constructor(fileManager:FileManager.IFileManager, options:IOptions, extPath:string, token:string) {
+
+        this.fileManager = Joi.attempt(fileManager,
+            Joi.object().type(FileManager.default),
+            'Invalid File manager passed to File Helper');
+        this.options = Joi.attempt(options,
+            Schema.default.FileSchema,
+            'Invalid Options passed to File Helper');
+        this.extPath = extPath;
+        this.token = token;
     }
 
 

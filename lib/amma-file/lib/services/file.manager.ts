@@ -32,6 +32,7 @@ export interface IFileManager {
     upload(file:NodeFs.ReadStream, fileName:string, pathToUpload:string, callback:ICallback):void;
 }
 
+
 class FileManager implements IFileManager {
 
     /**
