@@ -1,0 +1,18 @@
+{
+  "author": {
+    "email": "prashanth.p@outlook.com",
+    "name": "Prashanth Pratapagiri"
+  },
+  "homepage": "https://github.com/prashanthjs/amma-db-parser#readme",
+  "keywords": [
+    "amma",
+    "amma-db-parser",
+    "hapi",
+    "node"
+  ],
+  "main": "index.js",
+  "name": "amma-db-parser",
+  "scripts": {
+    "test": "lab -t 100 -v -C"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "author": {
+    "email": "prashanth.p@outlook.com",
+    "name": "Prashanth Pratapagiri"
+  },
+
+  "keywords": [
+    "amma",
+    "amma-plugin-loader",
+    "hapi",
+    "node",
+    "plugin-loader"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "amma-plugin-loader",
+  "optionalDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prashanthjs/amma-plugin-loader.git"
+  },
+  "scripts": {
+    "test": "lab -t 100 -v -C"
+  },
+  "version": "0.0.4"
+}
