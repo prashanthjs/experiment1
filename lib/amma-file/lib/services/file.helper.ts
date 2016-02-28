@@ -61,11 +61,19 @@ export class FileHelper implements IFileHelper {
 
 
     getSrcDir():string {
-        return Path.join(this.options.srcDir, this.extPath);
+        if (this.extPath) {
+            return Path.join(this.options.srcDir, this.extPath);
+        } else {
+            return this.options.srcDir;
+        }
     }
 
     getTempDir():string {
-        return Path.join(this.options.tempDir, this.token);
+        if (this.token) {
+            return Path.join(this.options.tempDir, this.token);
+        } else {
+            return this.options.tempDir;
+        }
     }
 
     getTempFiles():string[] {

@@ -10,7 +10,7 @@ export interface IFileUpload extends Hapi.IRequestHandler<Hapi.Request> {
 }
 
 class FileUploadHandler extends CoreFileHandler.default {
-    protected name:string = 'fileUpload';
+
     handler = (request:IFileUpload, reply:Hapi.IReply) => {
         const fileHelper = this.getFileHelperInstance(request);
         fileHelper.upload(request.payload.file, request.payload.file.hapi.filename, (error, result) => {

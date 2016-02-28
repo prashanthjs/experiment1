@@ -772,6 +772,15 @@ declare module 'joi' {
 	export function assert(value: any, schema: Schema, message?: string | Error): void;
 
 	/**
+	 * returns a value and throws if validation fails.
+	 *
+	 * @param value - the value to validate.
+	 * @param schema - the schema object.
+	 * @param message - optional message string prefix added in front of the error message. may also be an Error object.
+	 */
+	export function attempt(value:any, schema:Schema, message?:string | Error):any;
+
+	/**
 	 * Generates a reference to the value of the named key.
 	 */
 	export function ref(key: string, options?: ReferenceOptions): Reference;

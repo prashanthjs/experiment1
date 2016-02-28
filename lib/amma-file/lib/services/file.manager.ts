@@ -46,11 +46,17 @@ class FileManager implements IFileManager {
     syncFiles(srcDir:string, targetDir:string):void {
         this.removeFile(targetDir);
         Fs.makeTreeSync(targetDir);
-        Fs.copySync(srcDir, targetDir);
+        if (Fs.isDirectorySync(srcDir)) {
+            Fs.copySync(srcDir, targetDir);
+        }
     }
 
     getTopLevelFiles(path:string, extensions?:string[]):string[] {
-        return Fs.listSync(path, extensions);
+        if (Fs.isDirectorySync(path)) {
+            return Fs.listSync(path, extensions)
+        } else {
+            return [];
+        }
     }
 
     getOnlyFiles(path:string, extensions?:string[]):string[] {
@@ -58,7 +64,7 @@ class FileManager implements IFileManager {
         let temp = [];
         for (let i = 0; i < files.length; i++) {
             if (Fs.isFileSync(files[i])) {
-                temp.push(files[i]);
+                temp.push(Path.parse(files[i]).base);
             }
         }
         return temp;
@@ -105,7 +111,6 @@ class FileManager implements IFileManager {
 
 
     createThumbnail(file:string, targetPath:string, thumbnail:IThumbnail, next:ICallback) {
-
         if (this.isImage(file)) {
             const name = thumbnail.name;
             const width = thumbnail.width;
@@ -115,6 +120,7 @@ class FileManager implements IFileManager {
             const filename = Path.parse(file).base;
             const thumbnailPath = Path.join(destination, filename);
             Fs.makeTreeSync(destination);
+
             Gm(file).thumb(width, height, thumbnailPath, quality, next);
         } else {
             next();

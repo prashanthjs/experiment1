@@ -32,12 +32,9 @@ suite('File Token Handler', () => {
 
     before((next)=> {
         fileTokenHandler.setServer(server);
-        server.plugins = {
-            'amma-file': {
-                fileFactory: fileFactory,
-                fileManager: fileManager,
-            }
-        };
+        ObjectPath.ensureExists(server, 'settings.app.services', {});
+        server.settings.app.services.fileFactory = fileFactory;
+        server.settings.app.services.fileManager = fileManager;
         next();
     });
 

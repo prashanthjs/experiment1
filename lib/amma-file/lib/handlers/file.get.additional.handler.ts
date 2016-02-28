@@ -13,8 +13,6 @@ export interface IFilesRequestWithAdditionalPath extends Hapi.IRequestHandler<Ha
 
 class FileGetAdditionalHandler extends CoreFileHandler.default {
 
-    protected name:string = 'fileGetAdditional';
-
     handler = (request:IFilesRequestWithAdditionalPath, reply:Hapi.IReply) => {
         const additionalPath = request.params.additionalPath;
         const fileHelper = this.getFileHelperInstance(request);

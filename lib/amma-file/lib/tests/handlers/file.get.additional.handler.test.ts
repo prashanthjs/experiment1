@@ -32,12 +32,9 @@ suite('File Get Additional Handler', () => {
 
     before((next)=> {
         fileGetAdditionalHandler.setServer(server);
-        server.plugins = {
-            'amma-file': {
-                fileFactory: fileFactory,
-                fileManager: fileManager,
-            }
-        };
+        ObjectPath.ensureExists(server, 'settings.app.services', {});
+        server.settings.app.services.fileFactory = fileFactory;
+        server.settings.app.services.fileManager = fileManager;
         fileFactory.setServer(server);
         next();
     });

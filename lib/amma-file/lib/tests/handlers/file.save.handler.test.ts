@@ -32,12 +32,9 @@ suite('File Save Handler', () => {
 
     before((next)=> {
         fileSaveHandler.setServer(server);
-        server.plugins = {
-            'amma-file': {
-                fileFactory: fileFactory,
-                fileManager: fileManager,
-            }
-        };
+        ObjectPath.ensureExists(server, 'settings.app.services', {});
+        server.settings.app.services.fileFactory = fileFactory;
+        server.settings.app.services.fileManager = fileManager;
         fileFactory.setServer(server);
         next();
     });
@@ -51,7 +48,7 @@ suite('File Save Handler', () => {
     });
 
     test('Handler - success', (next)=> {
-        const stub = Sinon.stub(fileHelper, 'syncSrcToTemp', (callback)=> {
+        const stub = Sinon.stub(fileHelper, 'syncTempToSrc', (callback)=> {
             callback();
         });
         const spy:any = Sinon.spy((result)=> {
@@ -64,7 +61,7 @@ suite('File Save Handler', () => {
         result(request, spy);
     });
     test('Handler - failure', (next)=> {
-        const stub = Sinon.stub(fileHelper, 'syncSrcToTemp', (callback)=> {
+        const stub = Sinon.stub(fileHelper, 'syncTempToSrc', (callback)=> {
             callback('error');
         });
         const spy:any = Sinon.spy((result)=> {

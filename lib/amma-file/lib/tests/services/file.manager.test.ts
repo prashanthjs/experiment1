@@ -36,14 +36,37 @@ suite('Test File upload', () => {
             expect(path).to.be.equal(testPath);
             return ['test1'];
         });
+        let stub2 = Sinon.stub(Fs, 'isDirectorySync', (path) => {
+            return true;
+        });
+
         let files = fileManager.getTopLevelFiles(testPath);
         expect(files).to.be.an.array();
+        expect(files).to.deep.equal(['test1']);
         stub.restore();
+        stub2.restore();
+        next();
+    });
+    test('Top level files - empty', (next) => {
+        let testPath = '/test';
+        let stub = Sinon.stub(Fs, 'listSync', (path, extensions) => {
+            expect(path).to.be.equal(testPath);
+            return [];
+        });
+        let stub2 = Sinon.stub(Fs, 'isDirectorySync', (path) => {
+            return true;
+        });
+
+        let files = fileManager.getTopLevelFiles(testPath);
+        expect(files).to.deep.equal([]);
+        stub.restore();
+        stub2.restore();
         next();
     });
 
     test('Get only files', (next) => {
         let returnFiles = ['dir', 'file'];
+
         let stub = Sinon.stub(Fs, 'listSync', (path, extensions) => {
             return returnFiles;
         });
@@ -53,11 +76,15 @@ suite('Test File upload', () => {
             }
             return false;
         });
+        let stub2 = Sinon.stub(Fs, 'isDirectorySync', (path) => {
+            return true;
+        });
         let files = fileManager.getOnlyFiles('');
         expect(files).to.be.an.array();
         expect(files).to.only.include(['file']);
         stub.restore();
         stub1.restore();
+        stub2.restore();
         next();
     });
 
@@ -72,10 +99,11 @@ suite('Test File upload', () => {
             }
             return false;
         });
+
         let stub2 = Sinon.stub(Fs, 'removeSync', (path) => {
             expect(path).to.be.equal('dir');
         });
-        fileManager.removeSyncSubDir('');
+        fileManager.removeSyncSubDir('dir');
         stub.restore();
         stub1.restore();
         stub2.restore();
@@ -96,10 +124,36 @@ suite('Test File upload', () => {
         let stub2 = Sinon.stub(Fs, 'removeSync', (path) => {
             expect(path).to.be.equal(targetDir);
         });
+        var stub3 = Sinon.stub(Fs, 'isDirectorySync', function (file) {
+            return true;
+        });
         fileManager.syncFiles(srcDir, targetDir);
         stub.restore();
         stub1.restore();
         stub2.restore();
+        stub3.restore();
+        next();
+    });
+
+    test('Sync files - directory does not exist', (next) => {
+        const srcDir = 'srcDir';
+        const targetDir = 'targetDir';
+
+        let stub = Sinon.stub(Fs, 'makeTreeSync', (path) => {
+            expect(path).to.be.equal(targetDir);
+        });
+
+        let stub2 = Sinon.stub(Fs, 'removeSync', (path) => {
+            expect(path).to.be.equal(targetDir);
+        });
+        var stub3 = Sinon.stub(Fs, 'isDirectorySync', function (file) {
+            return false;
+        });
+        fileManager.syncFiles(srcDir, targetDir);
+        stub.restore();
+
+        stub2.restore();
+        stub3.restore();
         next();
     });
 
@@ -133,6 +187,7 @@ suite('Test File upload', () => {
         let stub2 = Sinon.stub(Fs, 'makeTreeSync', (path) => {
             return true;
         });
+
         const thumbnail = {
             name: 'test',
             width: 100,
@@ -149,12 +204,12 @@ suite('Test File upload', () => {
             Gm = gm;
             next();
         });
-        let thumbSpy = Sinon.spy((width, height, thumbnailPath, quality, next)=> {
+        let thumbSpy = Sinon.spy((width, height, thumbnailPath, quality, done)=> {
             expect(width).to.be.equal(thumbnail.width);
             expect(height).to.be.equal(thumbnail.height);
             expect(height).to.be.equal(thumbnail.quality);
             expect(thumbnailPath).to.be.equal(targetDir + '/' + thumbnail.name + '/' + filename);
-            next();
+            done();
         });
         let spy1 = Sinon.spy((file)=> {
             expect(file).to.be.equal('file.jpg');
@@ -164,6 +219,31 @@ suite('Test File upload', () => {
         });
         Gm = spy1;
         fileManager.createThumbnail(filename, targetDir, thumbnail, spy);
+
+    });
+    test('Create Thumbnail - not an image', (next) => {
+
+        let gm = Gm;
+        let stub = Sinon.stub(Fs, 'isImageExtension', (path) => {
+            return false;
+        });
+
+        const thumbnail = {
+            name: 'test',
+            width: 100,
+            height: 100,
+            quality: 100
+        };
+        const targetDir = 'target';
+        const filename = 'file.jpg';
+
+        let spy = Sinon.spy(()=> {
+            expect(spy.called).to.be.true();
+            stub.restore();
+            next();
+        });
+        fileManager.createThumbnail(filename, targetDir, thumbnail, spy);
+
     });
     test('Create Thumbnail  - callback is called immediately if not an image ', (next) => {
         const thumbnail = {

@@ -12,9 +12,6 @@ import TestData = require('./data/test-data');
 
 const lab = exports.lab = Lab.script(),
     before = lab.before,
-    beforeEach = lab.beforeEach,
-    afterEach = lab.afterEach,
-    after = lab.after,
     expect = Code.expect,
     suite = lab.suite,
     test = lab.test;
@@ -29,26 +26,12 @@ suite('File Core Handler', () => {
     const request:any = TestData.default.request;
     before((next)=> {
         fileCoreHandler.setServer(server);
-        server.plugins = {
-            'amma-file': {
-                fileFactory: fileFactory,
-                fileManager: fileManager
-            }
-        };
+        ObjectPath.ensureExists(server, 'settings.app.services', {});
+        server.settings.app.services.fileFactory = fileFactory;
+        server.settings.app.services.fileManager = fileManager;
         next();
     });
 
-    test('Init', (next)=> {
-        const stub = Sinon.stub(server, 'handler', (name, func)=> {
-            expect(func).to.be.a.function();
-        });
-        const spy = Sinon.spy(()=> {
-            stub.restore();
-            expect(spy.called).to.be.true();
-            next();
-        });
-        fileCoreHandler.init(spy);
-    });
 
     test('Handler Init ', (next)=> {
         const options:any = {'test': 'test'};

@@ -16,7 +16,7 @@ class FileFactory implements IFileFactory {
     };
 
     getFileManager():FileManager.IFileManager {
-        return this.server.plugins['amma-file'].fileManager;
+        return this.server.settings.app.services.fileManager;
     }
 
 

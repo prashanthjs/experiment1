@@ -1,0 +1,17 @@
+{
+  "author": {
+    "email": "prashanth.p@outlook.com",
+    "name": "Prashanth Pratapagiri"
+  },
+  "keywords": [
+    "amma",
+    "amma-user",
+    "hapi",
+    "node"
+  ],
+  "main": "index.js",
+  "name": "amma-user",
+  "scripts": {
+    "test": "lab -t 100 -v -C"
+  }
+}

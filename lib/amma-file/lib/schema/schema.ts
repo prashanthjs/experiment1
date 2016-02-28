@@ -18,6 +18,7 @@ const FileSchema = Joi.object({
 
 const FileHandlerSchema = Joi.object({
     fileOptions: FileSchema,
+    additionalPath: Joi.string(),
     extPath: Joi.string(),
     tokenPath: Joi.string()
 });

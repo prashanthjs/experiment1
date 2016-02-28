@@ -13,7 +13,6 @@ export interface IFileDelete extends Hapi.IRequestHandler<Hapi.Request> {
 
 class FileRemoveHandler extends CoreFileHandler.default {
 
-    protected name:string = 'fileRemove';
     handler = (request:IFileDelete, reply:Hapi.IReply) => {
         const fileName = request.params.fileName;
         const fileHelper = this.getFileHelperInstance(request);

@@ -7,10 +7,9 @@ import Joi = require('joi');
 
 class FileSaveHandler extends CoreFileHandler.default {
 
-    protected name:string = 'fileSave';
     handler = (request:Hapi.IRequestHandler<Hapi.Request>, reply:Hapi.IReply) => {
         const fileHelper = this.getFileHelperInstance(request);
-        fileHelper.syncSrcToTemp((err)=> {
+        fileHelper.syncTempToSrc((err)=> {
             if (err) {
                 reply(Boom.badImplementation(err));
             } else {

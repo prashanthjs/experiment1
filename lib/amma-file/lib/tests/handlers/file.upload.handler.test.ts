@@ -31,12 +31,9 @@ suite('File Upload Handler', () => {
     const fileHelper = new FileHelper.default(fileManager, fileOptions, null, null);
     before((next)=> {
         fileUploadHandler.setServer(server);
-        server.plugins = {
-            'amma-file': {
-                fileFactory: fileFactory,
-                fileManager: fileManager,
-            }
-        };
+        ObjectPath.ensureExists(server, 'settings.app.services', {});
+        server.settings.app.services.fileFactory = fileFactory;
+        server.settings.app.services.fileManager = fileManager;
         fileFactory.setServer(server);
         next();
     });

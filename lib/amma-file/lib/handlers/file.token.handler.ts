@@ -6,18 +6,17 @@ import ObjectPath = require('object-path');
 import Joi = require('joi');
 
 class FileTokenHandler extends CoreFileHandler.default {
-    protected name:string = 'fileToken';
 
-    protected getFileManager():FileManager.IFileManager {
-        return this.server.plugins['amma-file'].fileManager;
-    }
+    protected getFileManager = ():FileManager.IFileManager => {
+        return this.server.settings.app.services.fileManager;
+    };
 
-    protected setToken(request:Hapi.IRequestHandler<Hapi.Request>, token:string) {
+    protected setToken = (request:Hapi.IRequestHandler<Hapi.Request>, token:string) => {
         if (ObjectPath.has(this.options, 'tokenPath')) {
             const tokenPath:any = ObjectPath.get(this.options, 'tokenPath');
             ObjectPath.set(request, tokenPath, token);
         }
-    }
+    };
 
     handler = (request:Hapi.IRequestHandler<Hapi.Request>, reply:Hapi.IReply) => {
         const token = this.getFileManager().createToken();

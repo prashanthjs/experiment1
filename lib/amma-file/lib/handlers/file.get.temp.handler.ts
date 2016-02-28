@@ -7,8 +7,6 @@ import Joi = require('joi');
 
 class FileGetTempHandler extends CoreFileHandler.default {
 
-    protected name:string = 'fileGetTemp';
-
     handler = (request:Hapi.IRequestHandler<Hapi.Request>, reply:Hapi.IReply) => {
         const fileHelper = this.getFileHelperInstance(request);
         const files = fileHelper.getTempFiles();

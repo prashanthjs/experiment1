@@ -19,11 +19,12 @@ const lab = exports.lab = Lab.script(),
 
 suite('Test File upload', () => {
     const server = new Hapi.Server();
-    server.plugins = {
-        'amma-file': {
+    server.settings.app = {
+        services: {
             'fileManager': new FileManager.default()
         }
     };
+
     const options = {
         tempDir: 'temp',
         srcDir: 'src',
