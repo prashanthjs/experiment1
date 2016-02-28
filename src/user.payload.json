@@ -1,0 +1,21 @@
+{
+  "_id": "prashanthp",
+  "name": {
+    "firstName": "Prashanth",
+    "lastName": "Pratapagiri"
+  },
+  "password": "prashanth123",
+  "email": "prashanth.p@outlook.com",
+  "contactNumber": "07889286992",
+  "dob": "1988-01-05",
+  "role": "admin",
+  "gender": "male",
+  "address": {
+    "addressLine1": "150",
+    "addressLine2": "Paget street",
+    "town": "Loughborough",
+    "county": "Leicestershire",
+    "country": "United Kingdom",
+    "postcode": "LE115DU"
+  }
+}
