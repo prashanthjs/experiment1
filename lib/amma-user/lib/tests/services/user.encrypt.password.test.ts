@@ -19,12 +19,12 @@ suite('User Password Encrypt Service', () => {
     const service = new Service.default();
 
     test('Test Password Request', (next) => {
-        const request = {
+        const request:any = {
             payload: {
                 password: 'test'
             }
         };
-        const spy = Sinon.spy(()=> {
+        const spy:any = Sinon.spy(()=> {
 
             expect(request.payload.password).to.not.equal('test');
             expect(spy.called).to.be.true();
@@ -34,7 +34,7 @@ suite('User Password Encrypt Service', () => {
     });
 
     test('Test Password Request', (next) => {
-        const request = {
+        const request:any = {
             payload: {
                 password: 'test'
             }
@@ -42,7 +42,7 @@ suite('User Password Encrypt Service', () => {
         const stub = Sinon.stub(Bcrypt, 'hash', (password, salt, callback)=> {
             callback('error');
         });
-        const spy = Sinon.spy(()=> {
+        const spy:any = Sinon.spy(()=> {
             expect(spy.calledWith(Boom.badImplementation('error'))).to.be.true();
             expect(request.payload.password).to.be.equal('test');
             expect(spy.called).to.be.true();

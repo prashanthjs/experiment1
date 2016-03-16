@@ -36,7 +36,12 @@ declare module "fs-plus" {
     export = _temp;
 }
 
-declare module 'mongoose-validator' {
+declare module 'mongoose-validators' {
+    var _temp:any;
+    export = _temp;
+}
+
+declare module 'mongoose-timestamp' {
     var _temp:any;
     export = _temp;
 }

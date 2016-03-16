@@ -112,6 +112,28 @@ const routes = [
             }
         }
     },
+    {
+        method: 'GET',
+        path: '/users/profile-pic/{param*}',
+        handler: {
+            directory: {
+                path: imageOptions.srcDir,
+                redirectToSlash: true,
+                index: true
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/users/temp-profile-pic/{param*}',
+        handler: {
+            directory: {
+                path: imageOptions.srcDir,
+                redirectToSlash: true,
+                index: true
+            }
+        }
+    }
 ];
 
 export default routes;

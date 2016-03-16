@@ -9,13 +9,22 @@ class FileSaveHandler extends CoreFileHandler.default {
 
     handler = (request:Hapi.IRequestHandler<Hapi.Request>, reply:Hapi.IReply) => {
         const fileHelper = this.getFileHelperInstance(request);
-        fileHelper.syncTempToSrc((err)=> {
-            if (err) {
-                reply(Boom.badImplementation(err));
+        if (fileHelper.canSave()) {
+            fileHelper.syncTempToSrc((err)=> {
+                if (err) {
+                    reply(Boom.badImplementation(err));
+                } else {
+                    reply({success: true});
+                }
+            });
+        } else {
+            if (!fileHelper.hasValidFiles()) {
+                reply(Boom.badRequest('Invalid files'));
             } else {
-                reply({success: true});
+                reply(Boom.badRequest('Invalid file range'));
             }
-        });
+
+        }
     };
 
 }

@@ -30,6 +30,7 @@ class CrudCreateHandler extends CrudCoreHandler.default {
     handler = (request:IRequest, reply:Hapi.IReply) => {
         const model = this.getModel();
         const payload:any = request.payload;
+        console.log(payload);
         model.create(payload, (err?:any, result?:any):any => {
             if (err) {
                 if ([11000, 11001].indexOf(err.code) !== -1) {

@@ -12,8 +12,8 @@ const FileSchema = Joi.object({
     srcDir: Joi.string().required(),
     thumbnails: Joi.array().items(ThumbnailSchema),
     validExtensions: Joi.array().items(Joi.string()),
-    maxUpload: Joi.number().min(1).required(),
-    minUpload: Joi.number().min(1).required()
+    maxUpload: Joi.number().required(),
+    minUpload: Joi.number().required()
 });
 
 const FileHandlerSchema = Joi.object({

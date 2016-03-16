@@ -53,7 +53,7 @@ var manifest = {
             plugin: './lib/amma-crud'
         },
         {
-            plugin: './lib/amma-user'
+            plugin: './lib/whitelabel'
         }
     ]
 };

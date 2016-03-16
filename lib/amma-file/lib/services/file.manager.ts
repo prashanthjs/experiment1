@@ -94,6 +94,8 @@ class FileManager implements IFileManager {
         let fileName = parseData.name;
         let ext = parseData.ext;
         let i = 1;
+        fileName = fileName.replace(/[^a-zA-Z0-9_-]/g, '');
+        file = Path.join(dir, fileName + ext);
         while (Fs.isFileSync(file)) {
             file = Path.join(dir, fileName + '_' + i + ext);
             i = i + 1;
@@ -120,12 +122,10 @@ class FileManager implements IFileManager {
             const filename = Path.parse(file).base;
             const thumbnailPath = Path.join(destination, filename);
             Fs.makeTreeSync(destination);
-
             Gm(file).thumb(width, height, thumbnailPath, quality, next);
         } else {
             next();
         }
-
     }
 
     createThumbnails(path:string, thumbnails:IThumbnail[], callback:ICallback) {
@@ -155,7 +155,9 @@ class FileManager implements IFileManager {
 
 
     isImage(path:string):boolean {
-        return Fs.isImageExtension(path);
+        const parts = Path.parse(path);
+        const ext = parts.ext;
+        return Fs.isImageExtension(ext);
     }
 
     upload(file:NodeFs.ReadStream, fileName:string, pathToUpload:string, callback:ICallback):void {
