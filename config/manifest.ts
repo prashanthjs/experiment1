@@ -56,7 +56,10 @@ let manifest = {
             plugin: './lib/amma-crud'
         },
         {
-            plugin: './lib/whitelabel'
+            plugin: './lib/store'
+        },
+        {
+            plugin: './lib/user'
         }
 
     ]

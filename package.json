@@ -45,6 +45,7 @@
     "lodash": "^4.5.0",
     "mongoose": "^4.4.4",
     "mongoose-timestamp": "^0.5.0",
+    "mongoose-validator": "^1.2.4",
     "mongoose-validators": "^0.1.0",
     "node-uuid": "^1.4.7",
     "object-path": "^0.9.2"

@@ -3,52 +3,30 @@ const services = [
         cls: require('../services/document.service.factory').default,
         name: 'documentServiceFactory',
     },
-
     {
-        cls: require('../handlers/crud.create.handler').default,
-        handlers: [
-            {
-                name: 'crudCreate',
-                methodName: 'handlerInit'
-            }
-        ]
-    },
-    {
-        cls: require('../handlers/crud.get.all.handler').default,
+        cls: require('../handlers/crud.factory.handler').default,
         handlers: [
             {
                 name: 'crudGetAll',
-                methodName: 'handlerInit'
-            }
-        ]
-    },
-    {
-        cls: require('../handlers/crud.get.handler').default,
-        handlers: [
+                methodName: 'handlerGetAll'
+            },
             {
                 name: 'crudGet',
-                methodName: 'handlerInit'
-            }
-        ]
-    },
-    {
-        cls: require('../handlers/crud.remove.handler').default,
-        handlers: [
-            {
-                name: 'crudRemove',
-                methodName: 'handlerInit'
-            }
-        ]
-    },
-    {
-        cls: require('../handlers/crud.update.handler').default,
-        handlers: [
+                methodName: 'handlerGet'
+            },
             {
                 name: 'crudUpdate',
-                methodName: 'handlerInit'
+                methodName: 'handlerUpdate'
+            },
+            {
+                name: 'crudCreate',
+                methodName: 'handlerCreate'
+            },
+            {
+                name: 'crudRemove',
+                methodName: 'handlerRemove'
             }
         ]
     }
-
 ];
 export default services;

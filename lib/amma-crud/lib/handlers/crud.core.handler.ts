@@ -47,6 +47,5 @@ class CrudCoreHandler {
         this.server = server;
     }
 
-
 }
 export default CrudCoreHandler;
