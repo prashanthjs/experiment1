@@ -17,7 +17,8 @@ const createPayload = {
     gender: Joi.any().tags(['male', 'female', 'other']),
     isActive: Joi.boolean().required(),
     notes: Joi.string(),
-    address: addressValidation
+    address: addressValidation,
+    store: Joi.string().required()
 };
 
 
@@ -34,12 +35,20 @@ const updatePayload = {
     gender: Joi.any().tags(['male', 'female', 'other']).required(),
     isActive: Joi.boolean().required(),
     notes: Joi.string(),
-    address: addressValidation
+    address: addressValidation,
+    store: Joi.string().required(),
 };
 
 _.merge(updatePayload, commonValidation);
 _.merge(createPayload, commonValidation);
+
+
+let changePasswordPayload = {
+    password: Joi.string().required(),
+};
+
 module.exports = {
     createPayload: createPayload,
-    updatePayload: updatePayload
+    updatePayload: updatePayload,
+    changePasswordPayload: changePasswordPayload
 };

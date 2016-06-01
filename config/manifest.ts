@@ -59,9 +59,14 @@ let manifest = {
             plugin: './lib/store'
         },
         {
+            plugin: './lib/role'
+        },
+        {
             plugin: './lib/user'
+        },
+        {
+            plugin: './lib/category'
         }
-
     ]
 };
 export = manifest;

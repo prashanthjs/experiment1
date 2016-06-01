@@ -1,15 +1,16 @@
-const schema = require('../schema/store.schema');
-const PayloadValidator = require('./payload.validation');
+const StoreSchema = require('../schema/store.schema');
+const StorePayloadValidator = require('./payload.validation');
 
 module.exports = [
     {
         method: 'GET',
         path: '/stores',
         config: {
+            id: 'get-all-stores',
             handler: {
                 crudGetAll: {
-                    collectionName: schema.collectionName,
-                    schema: schema.schema,
+                    collectionName: StoreSchema.collectionName,
+                    schema: StoreSchema.schema,
                 }
             },
             plugins: {
@@ -30,8 +31,8 @@ module.exports = [
         config: {
             handler: {
                 crudGet: {
-                    collectionName: schema.collectionName,
-                    schema: schema.schema,
+                    collectionName: StoreSchema.collectionName,
+                    schema: StoreSchema.schema,
                     idPath: 'params.id',
                     notFoundMessage: 'Store not found'
                 }
@@ -43,18 +44,18 @@ module.exports = [
         path: '/stores',
         config: {
             pre: [
-                {method: 'storeParentValidator(payload.parent)'}
+                {method: 'storeValidator(payload.parent)'}
             ],
             handler: {
                 crudCreate: {
-                    collectionName: schema.collectionName,
-                    schema: schema.schema,
+                    collectionName: StoreSchema.collectionName,
+                    schema: StoreSchema.schema,
                     idExistsMessage: 'store exists'
 
                 }
             },
             validate: {
-                payload: PayloadValidator.createPayload
+                payload: StorePayloadValidator.createPayload
             }
         }
     },
@@ -63,18 +64,18 @@ module.exports = [
         path: '/stores/{id}',
         config: {
             pre: [
-                {method: 'storeParentValidator(payload.parent)'}
+                {method: 'storeValidator(payload.parent)'}
             ],
             handler: {
                 crudUpdate: {
-                    collectionName: schema.collectionName,
-                    schema: schema.schema,
+                    collectionName: StoreSchema.collectionName,
+                    schema: StoreSchema.schema,
                     idPath: 'params.id',
-                    notFoundMessage: 'Whitelabel not found'
+                    notFoundMessage: 'Store not found'
                 }
             },
             validate: {
-                payload: PayloadValidator.updatePayload
+                payload: StorePayloadValidator.updatePayload
             }
         }
     },
@@ -84,8 +85,8 @@ module.exports = [
         config: {
             handler: {
                 crudRemove: {
-                    collectionName: schema.collectionName,
-                    schema: schema.schema,
+                    collectionName: StoreSchema.collectionName,
+                    schema: StoreSchema.schema,
                     idPath: 'params.id'
                 }
             }

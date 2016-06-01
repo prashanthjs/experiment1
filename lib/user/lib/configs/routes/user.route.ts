@@ -42,6 +42,9 @@ module.exports = [
         method: 'POST',
         path: '/users',
         config: {
+            pre: [
+                {method: 'encryptPasswordRequest'}
+            ],
             handler: {
                 crudCreate: {
                     collectionName: UserSchema.collectionName,
@@ -85,6 +88,36 @@ module.exports = [
                 }
             }
         }
-    }
+    },
+
+    {
+        method: 'POST',
+        path: '/auth/login',
+        config: {
+            handler: 'authLogin'
+        }
+    },
+    {
+        method: 'GET',
+        path: '/auth/logout',
+        config: {
+            handler: 'authLogout'
+        }
+    },
+
+    {
+        method: 'PUT',
+        path: '/users/{id}/change-password',
+        config: {
+            pre: [
+                {method: 'encryptPasswordRequest'}
+            ],
+            handler: 'userChangePassword',
+            validate: {
+                payload: UserPayloadValidator.changePasswordPayload
+            }
+        },
+
+    },
 
 ];

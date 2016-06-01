@@ -63,12 +63,20 @@ let schemaJson = {
         type: Boolean,
         'default': true
     },
+    isLocked: {
+        type: Boolean,
+        "default": false
+    },
     notes: String,
     token: {
         type: [String],
         require: false,
         select: false
-    }
+    },
+    store: {
+        type: String,
+        require: true
+    },
 };
 
 schemaJson = _.merge(schemaJson, common);

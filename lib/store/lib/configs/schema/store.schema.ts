@@ -30,12 +30,7 @@ let schemaJson = {
         })
     },
     website: {
-        type: String,
-        validate: MongooseValidator({
-            validator: 'isURL',
-            passIfEmpty: true,
-            message: 'Not a valid url'
-        })
+        type: String
     },
     contactNumber: String,
     parent: String,
@@ -44,6 +39,10 @@ let schemaJson = {
     isActive: {
         type: Boolean,
         'default': true
+    },
+    isLocked: {
+        type: Boolean,
+        'default': false
     }
 };
 

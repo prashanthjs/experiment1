@@ -9,27 +9,41 @@ export interface ICallback {
 }
 
 export interface IStoreValidator {
-    parentChecker(id:string, next:ICallback):void;
+    storeValidator(id, next:ICallback):void;
 }
 
 class StoreValidator implements IStoreValidator {
 
     private server:Hapi.Server;
 
-    parentChecker = (id:string, next:ICallback) => {
+    storeValidator = (id, next:ICallback) => {
         if (!id) {
             return next();
         }
-        Joi.assert(id, Joi.string().required(), 'Invalid data provided to hapi method');
-        this.getDbService().findById(id, null, (err, result) => {
-            if (err) {
-                return next(Boom.badImplementation(err));
+
+        Joi.assert(id, Joi.alternatives().try(Joi.string(), Joi.array().items(Joi.string())), 'Invalid data provided to hapi method');
+        let ids = [];
+        if (!Array.isArray(id)) {
+           ids.push(id);
+        } else {
+            ids = id;
+        }
+        this.getDbService().getModel().find({
+            _id: {
+                $in: ids
             }
-            else {
-                if (!result) {
-                    return next(Boom.forbidden('Invalid parent store provided'));
+        }, (err, docs) => {
+            if (err) {
+                next(Boom.badImplementation(err));
+            }
+            else if(!docs){
+                next(Boom.forbidden('Invalid store id(s) provided'));
+            } else {
+                if(docs.length === ids.length){
+                    next();
+                } else {
+                    next(Boom.forbidden('Invalid store id(s) provided'));
                 }
-                return next();
             }
         });
     };

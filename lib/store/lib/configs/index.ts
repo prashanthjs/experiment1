@@ -1,11 +1,10 @@
-const pkg = require('../../package.json');
-const routes = require('./routes');
-const services = require('./services.config');
-const config = {
-    routes: routes,
-    services: services,
+module.exports = {
+    app:{
+      privileges: ['store-add']
+    },
+    routes: require('./routes'),
+    services:  require('./services.config'),
     attributes: {
-        pkg: pkg
+        pkg: require('../../package.json')
     }
 };
-module.exports = config;

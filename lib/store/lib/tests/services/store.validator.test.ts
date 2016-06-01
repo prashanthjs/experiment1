@@ -24,7 +24,7 @@ suite('Store Unique validator Service', () => {
 
     before((next)=> {
         ObjectPath.ensureExists(server, 'settings.app.services', {});
-        server.settings.app.services.whitelabelDbService = dbService;
+        server.settings.app.services.storeDbService = dbService;
         service.setServer(server);
         next();
     });
@@ -41,7 +41,7 @@ suite('Store Unique validator Service', () => {
             expect(spy.called).to.be.true();
             next();
         });
-        service.parentChecker('test', spy);
+        service.storeValidator('test', spy);
     });
 
     test('Parent Store - failure', (next) => {
@@ -56,7 +56,7 @@ suite('Store Unique validator Service', () => {
             expect(spy.called).to.be.true();
             next();
         });
-        service.parentChecker('test', spy);
+        service.storeValidator('test', spy);
     });
 
     test('Parent store validator Service - returned error', (next) => {
@@ -72,7 +72,7 @@ suite('Store Unique validator Service', () => {
 
             next();
         });
-        service.parentChecker('test', spy);
+        service.storeValidator('test', spy);
     });
 
     test('Parent Store - success', (next) => {
@@ -82,7 +82,7 @@ suite('Store Unique validator Service', () => {
             expect(spy.called).to.be.true();
             next();
         });
-        service.parentChecker(null, spy);
+        service.storeValidator(null, spy);
     });
 
 });

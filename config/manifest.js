@@ -1,3 +1,4 @@
+"use strict";
 var Config = require('config');
 var GoodConsole = require('good-console');
 var manifest = {
@@ -15,9 +16,9 @@ var manifest = {
         }
     },
     connections: [{
-        port: Config.get('port'),
-        host: Config.get('host')
-    }],
+            port: Config.get('port'),
+            host: Config.get('host')
+        }],
     registrations: [
         {
             plugin: 'inert'
@@ -27,13 +28,13 @@ var manifest = {
                 register: 'good',
                 options: {
                     reporters: [{
-                        reporter: GoodConsole,
-                        events: {
-                            request: '*',
-                            error: '*',
-                            log: '*'
-                        }
-                    }]
+                            reporter: GoodConsole,
+                            events: {
+                                request: '*',
+                                error: '*',
+                                log: '*'
+                            }
+                        }]
                 }
             }
         },
@@ -56,7 +57,13 @@ var manifest = {
             plugin: './lib/store'
         },
         {
+            plugin: './lib/role'
+        },
+        {
             plugin: './lib/user'
+        },
+        {
+            plugin: './lib/category'
         }
     ]
 };

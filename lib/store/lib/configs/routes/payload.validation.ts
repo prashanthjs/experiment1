@@ -12,7 +12,8 @@ let createPayload = {
     website: Joi.string().uri(),
     address: Joi.object().keys(addressValidation),
     description: Joi.string(),
-    isActive: Joi.boolean()
+    isActive: Joi.boolean(),
+    isLocked: Joi.boolean()
 };
 
 let updatePayload = {
@@ -24,7 +25,8 @@ let updatePayload = {
     website: Joi.string().uri(),
     address: Joi.object().keys(addressValidation),
     description: Joi.string(),
-    isActive: Joi.boolean()
+    isActive: Joi.boolean(),
+    isLocked: Joi.boolean()
 };
 _.merge(updatePayload, commonValidation);
 _.merge(createPayload, commonValidation);

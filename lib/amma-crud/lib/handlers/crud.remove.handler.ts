@@ -22,21 +22,25 @@ interface IOptions extends CrudCoreHandler.IOptions {
 class CrudRemoveHandler extends CrudCoreHandler.default {
 
     protected options:IOptions;
-
-
     handler = (request:IRequest, reply:Hapi.IReply) => {
-        const model = this.getModel();
+        const model:any = this.getModel();
         const id = ObjectPath.get(request, this.options.idPath, null);
-        model.findByIdAndRemove(id, (err?:any):any => {
-            if (err) {
+        model.findById(id, (err, result) => {
+            if(err){
                 reply(Boom.badImplementation(err));
             }
-            else {
+            else if(!result){
                 reply({});
             }
+            else if(ObjectPath.get(result,'isLocked', false)){
+                reply(Boom.badImplementation('Cannot be deleted'));
+            }
+            else{
+                result.remove(()=>{
+                    reply({});
+                });
+            }
         });
-
-
     };
 
     getSchema = () => {

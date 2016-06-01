@@ -1,3 +1,4 @@
+"use strict";
 var Glue = require('glue');
 var options = {
     relativeTo: __dirname

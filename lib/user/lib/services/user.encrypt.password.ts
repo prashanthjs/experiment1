@@ -2,6 +2,7 @@ import Hapi = require('hapi');
 import Boom = require('boom');
 import Joi = require('joi');
 import Bcrypt = require('bcrypt');
+import IUserDbService from "./user.db.service";
 
 export interface ICallback {
     (err?:any, results?:any): any;
@@ -16,14 +17,13 @@ export interface IRequest extends Hapi.IRequestHandler<Hapi.Request> {
 
 export interface IUserEncryptPassword {
     encryptPasswordRequest(request, reply):void;
-    encryptPassword(password, next:ICallback):void;
-
 }
 
 class UserEncryptPassword implements IUserEncryptPassword {
+    private server:Hapi.Server;
 
     encryptPasswordRequest = (request:IRequest, reply:Hapi.IReply) => {
-        this.encryptPassword(request.payload.password, (err, hash:string) => {
+        this.getUserDbService().encryptPassword(request.payload.password, (err, hash:string) => {
             if (err) {
                 reply(Boom.badImplementation(err));
             } else {
@@ -33,18 +33,14 @@ class UserEncryptPassword implements IUserEncryptPassword {
         });
     };
 
-    encryptPassword = (password, next:ICallback) => {
-        Bcrypt.genSalt(10, (error, salt) => {
-            Bcrypt.hash(password, salt, (err, hash) => {
-                if (err) {
-                    next(err);
-                }
-                else {
-                    next(null, hash);
-                }
-            });
-        });
-    };
+    private getUserDbService():IUserDbService {
+        return this.server.settings.app.services.userDbService;
+    }
+
+    setServer(server:Hapi.Server):void {
+        this.server = server;
+    }
+
 
 }
 
